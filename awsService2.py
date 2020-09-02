@@ -43,7 +43,7 @@ def amazon_service(path):
             response = client.analyze_document(Document={'Bytes': base64_image}, FeatureTypes=["TABLES"])
             pages.append(page)
             documentResponse.append(response)
-            if comment_this==1:
+            if comment_this==10:
                 break
     
     
@@ -190,7 +190,7 @@ def aux_organize_info(tableInfo):
     for keyPayment in keysProofOfPayment:
         for indexLine,line in enumerate(tableInfo['lines']):
             try:
-                if fuzz.partial_ratio(line['Text'].lower(),keyPayment)>90:
+                if fuzz.partial_ratio(line['Text'].lower(),keyPayment)>95:
                     if not(aux_aux_organize_info(tableInfo['lines'][indexLine + 1]['Text'].lower())):
                         dictionaryDataOrganize[keyPayment]=tableInfo['lines'][indexLine + 1]['Text']
                         break
@@ -213,7 +213,7 @@ def organize_info_lines_key_value(listLinesAndImg):
     listTableInfoOrganize=[]
     for tableInfo in listLinesAndImg:
         listTableInfoOrganize.append(aux_organize_info(tableInfo))
-        # listTableInfoOrganize = list(map(lambda x:aux_organize_info(x),listLinesAndImg))
+    #listTableInfoOrganize = list(map(lambda x:aux_organize_info(x),listLinesAndImg))
     
     return listTableInfoOrganize
 
@@ -228,12 +228,20 @@ def draw_img_and_print_data(listTableInfoOrganize):
             except:
                 print(key + ":" + "vacio")
                 pass
+        print("-------------------------------------------------------")
         cv2.imshow("imagen Recortada",table['img'])
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
 
     return 
+
+def filter_paymente_abonado(listTableInfoOrganize):
+    paymenteAbonado=list(filter(lambda x: 'abonado' in (x['estado']).lower(),listTableInfoOrganize))
+    paymenteNotAbonado=list(filter(lambda x: 'abonado' not in (x['estado']).lower(),listTableInfoOrganize))
+
+    return paymenteAbonado,paymenteNotAbonado
+
 def aws_tables(path):
     """
     Llama a las funciones encargadas de utilizar el servicio de amazon Textrac
@@ -252,7 +260,10 @@ def aws_tables(path):
     listTableInfoOrganize=organize_info_lines_key_value(listLinesAndImg)
 
     # Mostrar imagen e imprimir datos.
-    draw_img_and_print_data(listTableInfoOrganize)
+    #draw_img_and_print_data(listTableInfoOrganize)
+
+    # filtrar comprobantes con estado diferente a abonado.
+    paymenteAbonado,paymenteNoAbonado = filter_paymente_abonado(listTableInfoOrganize)
 
 
 
