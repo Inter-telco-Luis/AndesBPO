@@ -34,6 +34,7 @@ def amazon_service(path):
             comment_this=comment_this+1
             page = np.array(pil_image)
             page = page[:, :, ::-1].copy()
+            print("analizando pagina")
             page = cv2.cvtColor(page, cv2.COLOR_BGR2BGRA)
             # cv2.imshow("imagen completa",page)
             # cv2.waitKey(0)
@@ -285,7 +286,8 @@ def aws_tables(path):
 
 
     print("Entregando Json")
-    json['comprobantes']=listTableInfoOrganize
+    jsonResponse={}
+    jsonResponse['comprobantes']=listTableInfoOrganize
 
 
 
@@ -293,7 +295,7 @@ def aws_tables(path):
 
 
 
-    return (json)
+    return (jsonResponse)
 
 
 
