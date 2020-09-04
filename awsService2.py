@@ -257,26 +257,34 @@ def aws_tables(path):
     """
     # responseTextracAwsList contines la respuesta de Textrac Amazon para cada pagina.
     # pagesImg almacena las imagenes del documento
+    print("Cargando paginas en Amazon Textrac")
     responseTextracAwsList,pagesImg = amazon_service(path)
     # listTables contiene las caracteristicas de las tablas encontradas en cada pagina
+    print("Filtrando Tablas")
     listTables = filter_table(responseTextracAwsList)
     # listStatement contiene las lineas que se utilizan para limitar la tabla Y inicial y Y final
+    print("generando coordenadas limites de cada tabla")
     listStatement = filter_statement(responseTextracAwsList)
     # listImageAndCoorTable contiene cada comprobante(imagen recortada) y sus correspondientes coordenadas
+    print("cortando imagen de cada comprobante.")
     listImageAndCoorTable=cut_tables(listTables,pagesImg, listStatement)
+
+    print("filtrando texto perteneciente a cada tabla")
     listLinesAndImg=filter_lines_by_img_cut(responseTextracAwsList,listImageAndCoorTable)
+
+    print("organizando texto e imagen de cada comprobante")
     listTableInfoOrganize=organize_info_lines_key_value(listLinesAndImg)
 
     # Mostrar imagen e imprimir datos.
     # draw_img_and_print_data(listTableInfoOrganize)
 
     # filtrar comprobantes con estado diferente a abonado.
+    print("filtrando abonados y no abonados")
     paymenteAbonado,paymenteNoAbonado = filter_paymente_abonado(listTableInfoOrganize)
     # draw_img_and_print_data(paymenteAbonado)
 
 
-    print(type(listTableInfoOrganize))
-    json={}
+    print("Entregando Json")
     json['comprobantes']=listTableInfoOrganize
 
 
