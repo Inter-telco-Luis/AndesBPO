@@ -1,14 +1,15 @@
 import cv2
+import json
 import boto3
 import numpy as np
 from scipy import ndimage
-from os import listdir
 from pdf2image import convert_from_path
-from base64 import b64decode, b64encode
+import base64
+#from base64 import b64decode, b64encode
 from fuzzywuzzy import fuzz
 
 keysProofOfPayment=[
-    "bancolombia",
+    # "bancolombia",
     "compania","nit compania","fecha actual",
     "numero de cuenta","tipo de cuenta","entidad",
     "cuenta local","nombre de beneficiario",
@@ -43,7 +44,7 @@ def amazon_service(path):
             response = client.analyze_document(Document={'Bytes': base64_image}, FeatureTypes=["TABLES"])
             pages.append(page)
             documentResponse.append(response)
-            if comment_this==10:
+            if comment_this==1:
                 break
     
     
@@ -101,9 +102,9 @@ def cut_tables(listTables,images,limits):
     listImageAndCoorTable=[]
     for indexPage, pageTables in enumerate(listTables):
         # imgTable=[]
-        dictionaryImgCoor={}
-        dictionaryCoor={}
         for indexTable,table in enumerate(pageTables):
+            dictionaryImgCoor={}
+            dictionaryCoor={}
             coorXStartTable = int(table['Geometry']['BoundingBox']['Left']*normStandar[1]) - edge
             coorXEndTable = coorXStartTable + int(table['Geometry']['BoundingBox']['Width']*normStandar[1]) + edge + edge
             if indexTable == 0:
@@ -180,6 +181,13 @@ def aux_aux_organize_info(text):
             return True
     return False
 
+def image_to_base64(image_to_convert):
+    # Codificando renglon en base 64
+    retval, buffer = cv2.imencode('.png', image_to_convert)
+
+    return "data:image/png;base64," + str(base64.b64encode(buffer))[2:].replace("'", "")
+
+
 def aux_organize_info(tableInfo):
     """
     funcion auxiliar de la funcion organiza_info_lines_key_value
@@ -199,7 +207,7 @@ def aux_organize_info(tableInfo):
                 print("error en funcion organize_info_lines_key_value")
                 pass
     
-    dictionaryDataOrganize['img']=tableInfo['img']
+    dictionaryDataOrganize['img']= image_to_base64(tableInfo['img'])
     dictionaryDataOrganize['page']=tableInfo['page']
 
     return dictionaryDataOrganize
@@ -260,15 +268,24 @@ def aws_tables(path):
     listTableInfoOrganize=organize_info_lines_key_value(listLinesAndImg)
 
     # Mostrar imagen e imprimir datos.
-    #draw_img_and_print_data(listTableInfoOrganize)
+    # draw_img_and_print_data(listTableInfoOrganize)
 
     # filtrar comprobantes con estado diferente a abonado.
     paymenteAbonado,paymenteNoAbonado = filter_paymente_abonado(listTableInfoOrganize)
+    # draw_img_and_print_data(paymenteAbonado)
+
+
+    print(type(listTableInfoOrganize))
+    json={}
+    json['comprobantes']=listTableInfoOrganize
 
 
 
 
-    return listTableInfoOrganize
+
+
+
+    return (json)
 
 
 
