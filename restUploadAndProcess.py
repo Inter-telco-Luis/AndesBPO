@@ -42,8 +42,8 @@ class User(Resource):
         for key,value in args.items():
             print(key + ':', value)
             
-        # f = request.files['data']
-        # f.save(os.path.join("../FilesTemp",args['name'])) 
+        f = request.files['data']
+        f.save(os.path.join("../FilesTemp",args['name'])) 
 
         try:
             json = aws_tables('../FilesTemp/'+args['name'])

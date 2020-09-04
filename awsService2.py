@@ -295,4 +295,4 @@ def aws_tables(path):
 
 if __name__ == "__main__":
 
-    response=aws_tables("/home/pdi/Documents/AndesBPO/FilesAndesBPO/naf20191112.pdf")
+    response=aws_tables("../FilesTemp/naf20191112.pdf")
