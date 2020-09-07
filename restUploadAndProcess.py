@@ -36,7 +36,6 @@ class User(Resource):
         parser.add_argument("DatosArchivo")
         parser.add_argument("name")
         parser.add_argument("data")
-
         args = parser.parse_args()
 
         print('\nPARAMETROS ENTRADA:')
@@ -48,8 +47,8 @@ class User(Resource):
         #time.sleep(1)
 
         try:
-            json = aws_tables("../FilesTemp/'"+args["name"]+"'$'\n'")
-            print(type(json))
+            json = aws_tables("../FilesTemp/"+args["name"])
+            #print(type(json))
             #json = {'hola':['hola1','hola2']}
             return json
         except Exception as error:
