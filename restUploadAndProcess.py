@@ -47,7 +47,7 @@ class User(Resource):
 
         try:
             json = aws_tables('../FilesTemp/'+args['name'])
-            print(type(json))
+            #print(type(json))
             #json = {'hola':['hola1','hola2']}
             return json
         except Exception as error:
