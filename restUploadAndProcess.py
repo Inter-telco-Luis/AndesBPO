@@ -6,7 +6,8 @@ from flask_cors import CORS
 import numpy as np
 import os
 from awsService2 import aws_tables
- 
+import time
+
 app = Flask(__name__)
 api = Api(app)
 CORS(app)
@@ -44,10 +45,16 @@ class User(Resource):
             
         f = request.files['data']
         f.save(os.path.join("../FilesTemp",args['name'])) 
+        #time.sleep(1)
 
         try:
+<<<<<<< HEAD
             json = aws_tables('../FilesTemp/'+args['name'])
             #print(type(json))
+=======
+            json = aws_tables("../FilesTemp/'"+args["name"]+"'$'\n'")
+            print(type(json))
+>>>>>>> f2b4208c23961ce11bc33b1e61cb7c66ea0c5d76
             #json = {'hola':['hola1','hola2']}
             return json
         except Exception as error:
