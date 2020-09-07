@@ -5,6 +5,7 @@ import numpy as np
 from scipy import ndimage
 from pdf2image import convert_from_path
 import base64
+#import time
 #from base64 import b64decode, b64encode
 from fuzzywuzzy import fuzz
 
@@ -27,6 +28,7 @@ def amazon_service(path):
 
     if path.endswith('.pdf'):
         images = convert_from_path(path)
+        #
         documentResponse = []
         pages=[]
         comment_this=0
