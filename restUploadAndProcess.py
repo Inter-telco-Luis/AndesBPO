@@ -47,18 +47,8 @@ class User(Resource):
         #time.sleep(1)
 
         try:
-<<<<<<< HEAD
-            json = aws_tables("../FilesTemp/"+args["name"])
-            #print(type(json))
-=======
-<<<<<<< HEAD
             json = aws_tables('../FilesTemp/'+args['name'])
-            #print(type(json))
-=======
-            json = aws_tables("../FilesTemp/'"+args["name"]+"'$'\n'")
-            print(type(json))
->>>>>>> f2b4208c23961ce11bc33b1e61cb7c66ea0c5d76
->>>>>>> 51a3a1d068a30de6c2f36dfdf88af03d3a7e918d
+            #print()
             #json = {'hola':['hola1','hola2']}
             return json
         except Exception as error:
