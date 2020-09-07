@@ -45,10 +45,10 @@ class User(Resource):
             
         f = request.files['data']
         f.save(os.path.join("../FilesTemp",args['name'])) 
-        time.sleep(1)
+        #time.sleep(1)
 
         try:
-            json = aws_tables('../FilesTemp/'+args['name'])
+            json = aws_tables("../FilesTemp/'"+args["name"]+"'$'\n'")
             print(type(json))
             #json = {'hola':['hola1','hola2']}
             return json
