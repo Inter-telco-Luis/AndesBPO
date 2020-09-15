@@ -5,6 +5,7 @@ import numpy as np
 from scipy import ndimage
 from pdf2image import convert_from_path
 import base64
+import multiprocessing
 #import time
 #from base64 import b64decode, b64encode
 from fuzzywuzzy import fuzz
@@ -19,6 +20,17 @@ keysProofOfPayment=[
     "fecha de aplicacion"
 ]
 
+
+def aux_amazon_service(pil_image):
+    page = np.array(pil_image)
+    page = page[:, :, ::-1].copy()
+    page = cv2.cvtColor(page, cv2.COLOR_BGR2BGRA)
+    base64_image = cv2.imencode('.PNG',page)[1].tostring()
+    client = boto3.client('textract')
+    response = client.analyze_document(Document={'Bytes': base64_image}, FeatureTypes=["TABLES"])
+
+    return response,page
+
 def amazon_service(path):
     """
     Utiliza el servicio de Amazon Textrac.
@@ -29,32 +41,13 @@ def amazon_service(path):
     if path.endswith('.pdf'):
         images = convert_from_path(path)
         #
-        documentResponse = []
-        pages=[]
-        comment_this=0
-        for pil_image in images:
-            comment_this=comment_this+1
-            page = np.array(pil_image)
-            page = page[:, :, ::-1].copy()
-            print("analizando pagina")
-            page = cv2.cvtColor(page, cv2.COLOR_BGR2BGRA)
-            # cv2.imshow("imagen completa",page)
-            # cv2.waitKey(0)
-            #image_pages.append(page)
-
-            base64_image = cv2.imencode('.PNG',page)[1].tostring()
-            client = boto3.client('textract')
-            response = client.analyze_document(Document={'Bytes': base64_image}, FeatureTypes=["TABLES"])
-            pages.append(page)
-            documentResponse.append(response)
-            if comment_this==1:
-                break
-    
-    
-    return documentResponse,pages
-
-
-
+        pool = multiprocessing.Pool()
+        documentResponse = pool.map(aux_amazon_service, images)
+        pool.close()
+        pool.join()
+        responseList=list(map(lambda x: x[0],documentResponse))
+        pages=list(map(lambda x: x[1],documentResponse))
+    return responseList,pages
 
 
 def filter_table(list_response):
@@ -307,4 +300,4 @@ def aws_tables(path):
 
 if __name__ == "__main__":
 
-    response=aws_tables("../FilesTemp/naf20191114.pdf")
+    response=aws_tables("../FilesTemp/replaced_Pago online200902.pdf")

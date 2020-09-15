@@ -7,6 +7,7 @@ import numpy as np
 import os
 from awsService2 import aws_tables
 import time
+import re
 
 app = Flask(__name__)
 api = Api(app)
@@ -43,9 +44,8 @@ class User(Resource):
             print(key + ':', value)
             
         f = request.files['data']
-        f.save(os.path.join("../FilesTemp",args['name'])) 
-        #time.sleep(1)
-
+        name = re.sub(r"\s+", "", args['name'])
+        f.save(os.path.join("../FilesTemp",name))
         try:
             json = aws_tables('../FilesTemp/'+args['name'])
             #print()
