@@ -47,7 +47,7 @@ class User(Resource):
         name = re.sub(r"\s+", "", args['name'])
         f.save(os.path.join("../FilesTemp",name))
         try:
-            json = aws_tables('../FilesTemp/'+args['name'])
+            json = aws_tables('../FilesTemp/'+name)
             #print()
             #json = {'hola':['hola1','hola2']}
             return json
