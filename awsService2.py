@@ -196,9 +196,18 @@ def aux_organize_info(tableInfo):
             try:
                 if fuzz.partial_ratio(line['Text'].lower(),keyPayment)>95:
                     if not(aux_aux_organize_info(tableInfo['lines'][indexLine + 1]['Text'].lower())):
-                        dictionaryDataOrganize[keyPayment]=tableInfo['lines'][indexLine + 1]['Text']
-                        break
-                
+                        if keyPayment=="documento":
+                            dictionaryDataOrganize[keyPayment]=int(tableInfo['lines'][indexLine + 1]['Text'])
+                            break
+                        
+                        elif keyPayment=="valor":
+                            numStr=tableInfo['lines'][indexLine + 1]['Text']
+                            dictionaryDataOrganize[keyPayment]=numStr.split(",")[0]
+                            break
+
+                        else:
+                            dictionaryDataOrganize[keyPayment]=tableInfo['lines'][indexLine + 1]['Text']
+                            break                
             except:
                 print("error en funcion organize_info_lines_key_value")
                 pass
