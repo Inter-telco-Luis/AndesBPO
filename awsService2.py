@@ -9,6 +9,8 @@ import multiprocessing
 #import time
 #from base64 import b64decode, b64encode
 from fuzzywuzzy import fuzz
+import sys
+
 
 keysProofOfPayment=[
     # "bancolombia",
@@ -39,7 +41,7 @@ def amazon_service(path):
     """
 
     if path.endswith('.pdf'):
-        images = convert_from_path(path)
+        images = convert_from_path(path, last_page=40)
         #
         pool = multiprocessing.Pool()
         documentResponse = pool.map(aux_amazon_service, images)
@@ -179,9 +181,11 @@ def aux_aux_organize_info(text):
 
 def image_to_base64(image_to_convert):
     # Codificando renglon en base 64
-    #retval, buffer = cv2.imencode('.png', image_to_convert)
-    # return "data:image/png;base64," + str(base64.b64encode(buffer))[2:].replace("'", "")
-    return cv2.imencode('.png',image_to_convert)[1].tostring()
+    retval, buffer = cv2.imencode('.png', image_to_convert)
+    return "data:image/png;base64," + str(base64.b64encode(buffer))[2:].replace("'", "")
+    # imgbin = (cv2.imencode('.png',image_to_convert)[1].tostring())
+    # imgbin = imgbin.replace("b'","")
+    # return imgbin.replace("'","")
     
 
 
@@ -293,6 +297,7 @@ def aws_tables(path):
     print("Entregando Json")
     jsonResponse={}
     jsonResponse['comprobantes']=paymenteAbonado
+    print(sys.getsizeof(jsonResponse))
     return (jsonResponse)
 
 
