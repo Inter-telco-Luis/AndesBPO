@@ -304,4 +304,4 @@ def aws_tables(path):
 
 if __name__ == "__main__":
 
-    response=aws_tables("../FilesTemp/replaced_rechazoonline200902.pdf")
+    response=aws_tables("../FilesTemp/rechazoonline200911.pdf")
