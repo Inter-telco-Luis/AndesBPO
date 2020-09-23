@@ -41,7 +41,7 @@ def amazon_service(path):
     """
 
     if path.endswith('.pdf'):
-        images = convert_from_path(path, last_page=40)
+        images = convert_from_path(path, last_page=30)
         #
         pool = multiprocessing.Pool()
         documentResponse = pool.map(aux_amazon_service, images)
