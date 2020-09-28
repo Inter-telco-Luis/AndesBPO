@@ -5,7 +5,7 @@ from flask import jsonify
 from flask_cors import CORS
 import numpy as np
 import os
-from awsService2 import aws_tables
+from awsService3 import aws_tables
 import time
 import re
 

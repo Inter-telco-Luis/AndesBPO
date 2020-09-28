@@ -217,7 +217,7 @@ def aux_organize_info(tableInfo):
                 print("error en funcion organize_info_lines_key_value")
                 pass
     
-    pathImg = "/home/pdi/Documents/AndesBPO/img/"+str(dictionaryDataOrganize["documento"])+dictionaryDataOrganize["numero de cuenta"]+".png"
+    pathImg = "/home/ubuntu/dowloadimagen/public/images/"+str(dictionaryDataOrganize["documento"])+dictionaryDataOrganize["numero de cuenta"]+".png"
     cv2.imwrite(pathImg,tableInfo['img'])
     dictionaryDataOrganize['img']= pathImg
     dictionaryDataOrganize['page']=tableInfo['page']
