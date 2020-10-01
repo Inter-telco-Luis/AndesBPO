@@ -299,6 +299,7 @@ def aws_tables(path):
     print("Entregando Json")
     jsonResponse={}
     jsonResponse['comprobantes']=paymenteAbonado
+    jsonResponse['No_Abonados']=paymenteNoAbonado
     #print(sys.getsizeof(jsonResponse))
     return (jsonResponse)
 
