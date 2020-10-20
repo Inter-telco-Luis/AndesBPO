@@ -51,7 +51,7 @@ class User(Resource):
         f.save(os.path.join("../FilesTemp",name))
         try:
             jsonFile = aws_tables('../FilesTemp/'+name)
-            remove("comprobantes.json")
+            #remove("comprobantes.json")
 
             with open('comprobantes.json', 'w') as file:
                 json.dump({'json': jsonFile}, file)
