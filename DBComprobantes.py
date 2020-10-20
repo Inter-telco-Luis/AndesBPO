@@ -40,7 +40,7 @@ def fill_db_comprobantes(imgName):
         cur = conn.cursor()
 
         # query = "INSERT INTO events (url,classname,text) VALUES ('" + segment + "');"
-        query = "INSERT INTO comprobantes (pdfname,name,idcard,value,pagina,hour) VALUES (pdfName'" + name + "','"+documento+"','"+valor+"','"+page+"',CURRENT_DATE CURRENT_TIME)'"
+        query = "INSERT INTO comprobantes (pdfname,name,idcard,value,pagina,hour) VALUES (pdfName'" + name + "','"+documento+"','"+valor+"','"+str(page)+"',CURRENT_DATE CURRENT_TIME)'"
         print(query)
         cur.execute(query)
 
