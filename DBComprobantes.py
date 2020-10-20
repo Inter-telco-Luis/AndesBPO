@@ -17,35 +17,34 @@ def connection_db():
                             database="comprobantes")
     return conn
 
-def fill_db_comprobantes(segment):
+def fill_db_comprobantes(imgName):
     '''
     Llenar tabla de comprobantes
     '''
+
     with open('comprobantes.json', 'r') as f:
         comprobantesJson = json.load(f)
 
-    print(comprobantesJson)
-    
-    
-    
-    
-    try:
-        conn = connection_db()
-        cur = conn.cursor()
+    #print(comprobantesJson)
+    for indexJson,data in enumerate(comprobantesJson["json"]["comprobantes"]):
+        if(data["img"]==imgName): 
+            try:
+                conn = connection_db()
+                cur = conn.cursor()
 
-        # query = "INSERT INTO events (url,classname,text) VALUES ('" + segment + "');"
-        query = "INSERT INTO comprobantes (pdfname,name,idcard,value,pagina,hour) VALUES ('" + segment[0] + "','"+segment[1]+"','"+segment[2]+"','"+segment[3]+"','"+segment[4]+"','"+segment[5]+"')"
-        print(query)
-        cur.execute(query)
+                # query = "INSERT INTO events (url,classname,text) VALUES ('" + segment + "');"
+                query = "INSERT INTO comprobantes (pdfname,name,idcard,value,pagina,hour) VALUES (pdfName'" + data["nombre de benficiario"] + "','"+data["documento"]+"','"+data["valor"]+"','"+data["page"]+"','"+CURRENT_DATE+""+CURRENT_TIME,+"')"
+                print(query)
+                cur.execute(query)
 
-        cur.close()
-        conn.commit()
+                cur.close()
+                conn.commit()
 
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
-    finally:
-        if conn is not None:
-            conn.close()
+            except (Exception, psycopg2.DatabaseError) as error:
+                print(error)
+            finally:
+                if conn is not None:
+                    conn.close()
 
 if __name__ == "__main__":
-    pass
+    fill_db_comprobantes("1144050140829-687274-91.png")
