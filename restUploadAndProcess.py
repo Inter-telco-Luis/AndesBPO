@@ -8,6 +8,9 @@ import os
 from awsService3 import aws_tables
 import time
 import re
+from os import remove
+import json
+
 
 app = Flask(__name__)
 api = Api(app)
@@ -47,10 +50,13 @@ class User(Resource):
         name = re.sub(r"\s+", "", args['name'])
         f.save(os.path.join("../FilesTemp",name))
         try:
-            json = aws_tables('../FilesTemp/'+name)
-            #print()
-            #json = {'hola':['hola1','hola2']}
-            return json
+            jsonFile = aws_tables('../FilesTemp/'+name)
+            remove("comprobantes.json")
+
+            with open('comprobantes.json', 'w') as file:
+                json.dump({'json': jsonFile}, file)
+
+            return jsonFile
         except Exception as error:
             print('|ERROR|',error)
             return r_500   
