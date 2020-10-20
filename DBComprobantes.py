@@ -1,4 +1,5 @@
 import psycopg2
+import json
 
 def connection_db():
     '''
@@ -18,8 +19,16 @@ def connection_db():
 
 def fill_db_comprobantes(segment):
     '''
-    Llenar tabla de segmentos
+    Llenar tabla de comprobantes
     '''
+    with open('comprobantes.json', 'r') as f:
+        comprobantesJson = json.load(f)
+
+    print(comprobantesJson)
+    
+    
+    
+    
     try:
         conn = connection_db()
         cur = conn.cursor()
@@ -37,3 +46,6 @@ def fill_db_comprobantes(segment):
     finally:
         if conn is not None:
             conn.close()
+
+if __name__ == "__main__":
+    pass
