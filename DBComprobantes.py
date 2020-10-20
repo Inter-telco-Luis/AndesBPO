@@ -30,17 +30,17 @@ def fill_db_comprobantes(imgName):
         if(data["img"]==imgName):
             break 
     
-    name = comprobantesJson["json"]["comprobantes"][indexJson]["nombre de beneficiario"]
-    documento = comprobantesJson["json"]["comprobantes"][indexJson]["documento"]
+    name = str(comprobantesJson["json"]["comprobantes"][indexJson]["nombre de beneficiario"])
+    documento = str(comprobantesJson["json"]["comprobantes"][indexJson]["documento"])
     valor = comprobantesJson["json"]["comprobantes"][indexJson]["valor"]
-    page = comprobantesJson["json"]["comprobantes"][indexJson]["page"]
+    page = str(comprobantesJson["json"]["comprobantes"][indexJson]["page"])
 
     try:
         conn = connection_db()
         cur = conn.cursor()
-
+        query ="INSERT INTO comprobantes (pdfname,name,idcard,value,pagina,hour,date) VALUES ('pdfName','"+name+"','"+documento+"','"+valor+"','"+page+"',CURRENT_TIME,CURRENT_DATE)"
         # query = "INSERT INTO events (url,classname,text) VALUES ('" + segment + "');"
-        query = "INSERT INTO comprobantes (pdfname,name,idcard,value,pagina,hour) VALUES (pdfName'" + name + "','"+documento+"','"+valor+"','"+str(page)+"',CURRENT_DATE CURRENT_TIME)'"
+
         print(query)
         cur.execute(query)
 
