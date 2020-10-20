@@ -25,7 +25,7 @@ def fill_db_comprobantes(segment):
         cur = conn.cursor()
 
         # query = "INSERT INTO events (url,classname,text) VALUES ('" + segment + "');"
-        query = "INSERT INTO events (pdfname,name,idcard,value,pagina,hour) VALUES ('" + segment[0] + "','"+segment[1]+"','"+segment[2]+"','"+segment[3]+"','"+segment[4]+"','"+segment[5]+"')'"
+        query = "INSERT INTO comprobantes (pdfname,name,idcard,value,pagina,hour) VALUES ('" + segment[0] + "','"+segment[1]+"','"+segment[2]+"','"+segment[3]+"','"+segment[4]+"','"+segment[5]+"')"
         print(query)
         cur.execute(query)
 
