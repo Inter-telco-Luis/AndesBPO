@@ -38,10 +38,10 @@ class User(Resource):
 
         print('\nPARAMETROS ENTRADA:')
         for key,value in args.items():
-            parameters=['','','','','','','','','','','','']
-            parameters=value.split(",")
+            imgName=value
+            print(imgName) #parameters=value.split(",")
 
-        fill_db_comprobantes(parameters)
+        fill_db_comprobantes(imgName)
         return True
 
 

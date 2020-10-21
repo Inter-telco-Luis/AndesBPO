@@ -54,4 +54,4 @@ def fill_db_comprobantes(imgName):
             conn.close()
 
 if __name__ == "__main__":
-    fill_db_comprobantes("1144050140829-687274-91.png")
+    fill_db_comprobantes("80094538029-468601-93.png")
