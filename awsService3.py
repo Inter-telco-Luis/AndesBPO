@@ -199,7 +199,7 @@ def aux_organize_info(tableInfo):
     for keyPayment in keysProofOfPayment:
         for indexLine,line in enumerate(tableInfo['lines']):
             try:
-                if fuzz.partial_ratio(line['Text'].lower(),keyPayment)>95:
+                if fuzz.partial_ratio(line['Text'].lower(),keyPayment)>90:
                     if not(aux_aux_organize_info(tableInfo['lines'][indexLine + 1]['Text'].lower())):
                         if keyPayment=="documento":
                             dictionaryDataOrganize[keyPayment]=int(tableInfo['lines'][indexLine + 1]['Text'])
