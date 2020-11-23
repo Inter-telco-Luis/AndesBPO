@@ -220,7 +220,7 @@ def aux_organize_info(tableInfo):
     pathImg = "/home/ubuntu/dowloadimagen/public/images/"+nameProofOfPayment
     cv2.imwrite(pathImg,tableInfo['img'])
     dictionaryDataOrganize['img']= nameProofOfPayment
-    dictionaryDataOrganize['page']=tableInfo['page']
+    dictionaryDataOrganize['page']=tableInfo['page']+1
 
     return dictionaryDataOrganize
 
